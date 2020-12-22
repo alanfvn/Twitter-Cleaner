@@ -5,17 +5,28 @@ import tweepy
 def main():
     while True:
         os.system('cls||clear')
-        option = input('1.) To clean tweets \n2.) Clean favorites \n3.) Clean followers \n')
+        option = input('1.) Clean tweets \n2.) Clean favorites \n3.) Clean followers \n4.) Clean followed accounts '
+                       '\n5.) Exit\n')
 
         if option == '1':
             clear_tweets()
-            break
         elif option == '2':
             clean_favorites()
-            break
         elif option == '3':
             clean_followers()
+        elif option == '4':
+            clean_following()
+        elif option == '5':
             break
+
+
+def clean_following():
+    api = get_api()
+    count = 0
+    for friend in api.friends_ids(screen_name=api.me().screen_name):
+        api.destroy_friendship(friend)
+        count += 1
+    print("Deleted " + str(count) + " followed accounts!")
 
 
 def clear_tweets():
